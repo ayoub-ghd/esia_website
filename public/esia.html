@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ESIA — École du Sud d'Informatique et d'Administration</title>
+<meta name="description" content="ESIA — École du Sud d'Informatique et d'Administration. Formations en informatique, réseaux, gestion et administration en Tunisie." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --blue:#1A3A6B;
+    --gold:#C9A84C;
+    --light:#F5F7FA;
+    --white:#FFFFFF;
+    --dark:#1C1C2E;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:'Poppins',sans-serif;color:var(--dark);background:var(--white);line-height:1.6;overflow-x:hidden}
+  a{text-decoration:none;color:inherit}
+  ul{list-style:none}
+  img{max-width:100%;display:block}
+  /* ===== NAVBAR ===== */
+  .navbar{position:fixed;top:0;left:0;width:100%;background:rgba(255,255,255,.95);backdrop-filter:blur(10px);z-index:1000;transition:all .3s ease;padding:1.2rem 0}
+  .navbar.scrolled{padding:.6rem 0;box-shadow:0 4px 20px rgba(26,58,107,.08)}
+  .nav-container{max-width:1200px;margin:0 auto;padding:0 2rem;display:flex;justify-content:space-between;align-items:center}
+  .logo{font-weight:800;font-size:1.6rem;color:var(--blue);letter-spacing:1px}
+  .logo span{color:var(--gold)}
+  .nav-links{display:flex;gap:2rem}
+  .nav-links a{font-weight:500;color:var(--dark);position:relative;transition:color .3s;padding:.3rem 0}
+  .nav-links a::after{content:'';position:absolute;left:0;bottom:-4px;width:0;height:2px;background:var(--gold);transition:width .3s}
+  .nav-links a:hover,.nav-links a.active{color:var(--blue)}
+  .nav-links a:hover::after,.nav-links a.active::after{width:100%}
+  .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none}
+  .hamburger span{width:26px;height:3px;background:var(--blue);border-radius:2px;transition:all .3s}
+  .hamburger.active span:nth-child(1){transform:rotate(45deg) translate(6px,6px)}
+  .hamburger.active span:nth-child(2){opacity:0}
+  .hamburger.active span:nth-child(3){transform:rotate(-45deg) translate(6px,-6px)}
+  /* ===== HERO ===== */
+  .hero{min-height:100vh;background:linear-gradient(135deg,var(--blue) 0%,#0f2649 100%);color:var(--white);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:6rem 2rem 4rem}
+  .blob{position:absolute;border-radius:50%;filter:blur(40px);opacity:.15;pointer-events:none}
+  .blob1{width:400px;height:400px;background:var(--gold);top:-100px;left:-100px;animation:float 18s ease-in-out infinite}
+  .blob2{width:500px;height:500px;background:#3a6fb5;bottom:-150px;right:-100px;animation:float 22s ease-in-out infinite reverse}
+  .blob3{width:300px;height:300px;background:var(--gold);top:40%;right:20%;animation:drift 15s ease-in-out infinite}
+  @keyframes float{0%,100%{transform:translate(0,0) rotate(0)}50%{transform:translate(50px,30px) rotate(180deg)}}
+  @keyframes drift{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-60px,40px) scale(1.1)}}
+  .shape{position:absolute;border:2px solid rgba(201,168,76,.3);pointer-events:none}
+  .shape1{width:120px;height:120px;top:15%;right:10%;animation:spin 20s linear infinite}
+  .shape2{width:80px;height:80px;bottom:20%;left:10%;border-radius:50%;animation:spin 15s linear infinite reverse}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .hero-content{text-align:center;max-width:900px;position:relative;z-index:2}
+  .hero-title{font-size:clamp(3rem,8vw,6rem);font-weight:800;color:var(--gold);line-height:1;opacity:0;animation:fadeUp 1s .2s forwards;letter-spacing:3px}
+  .hero-sub{font-size:clamp(1.1rem,2.5vw,1.8rem);font-weight:600;margin:1rem 0 1.5rem;opacity:0;animation:fadeUp 1s .5s forwards}
+  .hero-slogan{font-size:1.1rem;font-weight:300;margin-bottom:2.5rem;min-height:1.6em;opacity:0;animation:fadeUp 1s .8s forwards}
+  .typed{border-right:2px solid var(--gold);padding-right:4px}
+  .cta-btn{display:inline-block;background:var(--gold);color:var(--blue);padding:1rem 2.5rem;border-radius:50px;font-weight:700;font-size:1rem;transition:all .3s;box-shadow:0 8px 25px rgba(201,168,76,.4);cursor:pointer;border:none;opacity:0;animation:fadeUp 1s 1.1s forwards;letter-spacing:.5px}
+  .cta-btn:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(201,168,76,.6);background:#d4b25e}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+  /* ===== STATS ===== */
+  .stats{background:var(--blue);padding:4rem 2rem;color:var(--white)}
+  .stats-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;text-align:center}
+  .stat-item{padding:1rem}
+  .stat-icon{font-size:2.5rem;margin-bottom:.5rem;color:var(--gold)}
+  .stat-num{font-size:3rem;font-weight:800;color:var(--gold);line-height:1}
+  .stat-label{font-weight:400;margin-top:.5rem;font-size:.95rem;opacity:.9}
+  /* ===== SECTIONS ===== */
+  section{padding:6rem 2rem;scroll-margin-top:80px}
+  .section-title{text-align:center;font-size:clamp(2rem,4vw,2.8rem);font-weight:700;color:var(--blue);margin-bottom:1rem}
+  .section-sub{text-align:center;color:#666;max-width:600px;margin:0 auto 3rem;font-weight:300}
+  .container{max-width:1200px;margin:0 auto}
+  /* ===== À PROPOS ===== */
+  #apropos{background:var(--light)}
+  .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+  .about-text h3{color:var(--blue);font-size:1.3rem;margin:1.5rem 0 .5rem;font-weight:700}
+  .about-text h3:first-child{margin-top:0}
+  .about-text p{color:#444;margin-bottom:.5rem}
+  .values{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:.5rem}
+  .values span{background:var(--white);padding:.4rem 1rem;border-radius:20px;font-size:.85rem;font-weight:600;color:var(--blue);border:1px solid var(--gold)}
+  .quote-card{background:linear-gradient(135deg,var(--blue),#264c84);color:var(--white);padding:3rem;border-radius:20px;position:relative;box-shadow:0 20px 40px rgba(26,58,107,.2)}
+  .quote-card::before{content:'"';position:absolute;top:-20px;left:20px;font-size:8rem;color:var(--gold);font-family:Georgia,serif;line-height:1}
+  .quote-card p{font-style:italic;font-size:1.1rem;margin-bottom:1rem;position:relative;z-index:1}
+  .quote-card .author{color:var(--gold);font-weight:600;font-size:.95rem}
+  /* ===== FORMATIONS ===== */
+  .cards-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem}
+  .card{background:var(--white);padding:2rem;border-radius:16px;box-shadow:0 5px 20px rgba(0,0,0,.06);transition:all .4s ease;position:relative;overflow:hidden;border-top:4px solid transparent}
+  .card::before{content:'';position:absolute;top:0;left:0;width:100%;height:4px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform .4s ease}
+  .card:hover{transform:translateY(-10px);box-shadow:0 20px 40px rgba(26,58,107,.15)}
+  .card:hover::before{transform:scaleX(1)}
+  .card-icon{font-size:2.5rem;margin-bottom:1rem}
+  .card h3{color:var(--blue);font-size:1.25rem;margin-bottom:.5rem;font-weight:700}
+  .duration{display:inline-block;background:var(--light);color:var(--blue);padding:.3rem .8rem;border-radius:20px;font-size:.8rem;font-weight:600;margin-bottom:1rem}
+  .card p{color:#666;font-size:.95rem;margin-bottom:1rem}
+  .more{color:var(--gold);font-weight:600;font-size:.9rem;opacity:0;transition:opacity .3s}
+  .card:hover .more{opacity:1}
+  /* ===== ADMISSIONS ===== */
+  #admissions{background:var(--light)}
+  .adm-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem}
+  .adm-block{background:var(--white);padding:2.5rem;border-radius:16px;box-shadow:0 5px 20px rgba(0,0,0,.06)}
+  .adm-block h3{color:var(--blue);margin-bottom:1rem;font-size:1.3rem}
+  .checklist{margin-top:1rem}
+  .checklist li{padding:.6rem 0;display:flex;align-items:center;gap:.7rem}
+  .checklist li::before{content:'✓';color:var(--white);background:var(--gold);width:24px;height:24px;display:inline-flex;align-items:center;justify-content:center;border-radius:50%;font-weight:700;font-size:.85rem;flex-shrink:0}
+  .calendar{margin-top:1rem}
+  .calendar div{padding:.7rem 0;border-bottom:1px solid #eee;display:flex;justify-content:space-between}
+  .calendar div:last-child{border:none}
+  .calendar span:last-child{color:var(--gold);font-weight:600}
+  .faq{margin-top:1.5rem}
+  .faq-item{border-bottom:1px solid #eee;padding:1rem 0;cursor:pointer}
+  .faq-q{display:flex;justify-content:space-between;align-items:center;font-weight:600;color:var(--blue)}
+  .faq-q span{color:var(--gold);transition:transform .3s;font-size:1.4rem}
+  .faq-item.open .faq-q span{transform:rotate(45deg)}
+  .faq-a{max-height:0;overflow:hidden;transition:max-height .4s ease,padding .3s;color:#666}
+  .faq-item.open .faq-a{max-height:200px;padding-top:.8rem}
+  /* ===== ÉQUIPE ===== */
+  .team-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem}
+  .teacher{background:var(--white);padding:2rem;border-radius:16px;text-align:center;box-shadow:0 5px 20px rgba(0,0,0,.06);transition:all .4s ease;border:2px solid transparent}
+  .teacher:hover{transform:translateY(-8px);border-color:var(--gold);box-shadow:0 15px 35px rgba(201,168,76,.2)}
+  .avatar{width:90px;height:90px;border-radius:50%;margin:0 auto 1rem;display:flex;align-items:center;justify-content:center;color:var(--white);font-weight:700;font-size:1.8rem;background:linear-gradient(135deg,var(--blue),var(--gold))}
+  .teacher h4{color:var(--blue);margin-bottom:.3rem}
+  .teacher .role{color:var(--gold);font-weight:600;font-size:.9rem;margin-bottom:.3rem}
+  .teacher .spec{color:#666;font-size:.85rem}
+  /* ===== TÉMOIGNAGES ===== */
+  #temoignages{background:var(--light)}
+  .testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem}
+  .testi{background:var(--white);padding:2.5rem 2rem;border-radius:16px;box-shadow:0 5px 20px rgba(0,0,0,.06);position:relative}
+  .testi::before{content:'"';position:absolute;top:-10px;left:20px;font-size:5rem;color:var(--gold);font-family:Georgia,serif;line-height:1}
+  .testi p{color:#444;font-style:italic;margin-bottom:1rem;padding-top:1.5rem}
+  .testi .who{color:var(--blue);font-weight:700;font-size:.9rem}
+  /* ===== CONTACT ===== */
+  .contact-grid{
+  display:grid;
+  grid-template-columns:0.8fr 1.2fr;
+  gap:3rem;
+}
+  .contact-info p{padding:.7rem 0;display:flex;align-items:center;gap:.8rem;color:#444}
+  .contact-info p strong{color:var(--blue);min-width:90px;display:inline-block}
+  .contact-form{margin-top:2rem;display:flex;flex-direction:column;gap:1rem}
+  .contact-form input,.contact-form textarea{width:100%;padding:.9rem 1rem;border:2px solid #e5e7eb;border-radius:10px;font-family:inherit;font-size:.95rem;transition:border-color .3s;background:var(--white)}
+  .contact-form input:focus,.contact-form textarea:focus{outline:none;border-color:var(--gold)}
+  .contact-form textarea{resize:vertical;min-height:120px}
+  .submit-btn{background:var(--blue);color:var(--white);padding:1rem 2rem;border:none;border-radius:50px;font-weight:700;cursor:pointer;transition:all .3s;font-family:inherit}
+  .submit-btn:hover{background:var(--gold);color:var(--blue);transform:translateY(-2px)}
+  .map-box{background:var(--light);border-radius:16px;overflow:hidden;height:100%;min-height:500px;position:relative;display:flex;align-items:center;justify-content:center;flex-direction:column;border:2px dashed #ccc;color:#666;text-align:center;padding:2rem}
+  .map-box iframe{width:100%;height:100%;border:0;border-radius:16px}
+  /* ===== FOOTER ===== */
+  footer{background:#0f2649;color:var(--white);padding:4rem 2rem 1rem}
+  .footer-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:3rem;margin-bottom:2rem}
+  .footer-col h4{color:var(--gold);margin-bottom:1rem;font-size:1.05rem}
+  .footer-col p,.footer-col li{font-size:.9rem;opacity:.85;margin-bottom:.5rem}
+  .footer-col a:hover{color:var(--gold)}
+  .socials{display:flex;gap:.8rem;margin-top:1rem}
+  .socials a{width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;transition:all .3s}
+  .socials a:hover{background:var(--gold);color:var(--blue);transform:translateY(-3px)}
+  .footer-bottom{max-width:1200px;margin:0 auto;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,.1);text-align:center;font-size:.85rem;opacity:.7}
+  /* ===== WHATSAPP ===== */
+  .whatsapp{position:fixed;bottom:25px;right:25px;width:60px;height:60px;background:#25D366;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.8rem;box-shadow:0 8px 25px rgba(37,211,102,.4);z-index:999;animation:bounce 1.5s ease-out 1;transition:transform .3s}
+  .whatsapp:hover{transform:scale(1.1)}
+  @keyframes bounce{0%{transform:translateY(100px);opacity:0}60%{transform:translateY(-15px);opacity:1}80%{transform:translateY(5px)}100%{transform:translateY(0)}}
+  /* ===== REVEAL ===== */
+  .reveal{opacity:0;transform:translateY(30px);transition:all .8s ease}
+  .reveal.visible{opacity:1;transform:translateY(0)}
+  .reveal-left{opacity:0;transform:translateX(-50px);transition:all .8s ease}
+  .reveal-left.visible{opacity:1;transform:translateX(0)}
+  .reveal-right{opacity:0;transform:translateX(50px);transition:all .8s ease}
+  .reveal-right.visible{opacity:1;transform:translateX(0)}
+  /* ===== RESPONSIVE ===== */
+  @media(max-width:900px){
+    .nav-links{position:fixed;top:0;right:-100%;width:75%;height:100vh;background:var(--white);flex-direction:column;justify-content:center;align-items:center;gap:2rem;transition:right .4s ease;box-shadow:-10px 0 30px rgba(0,0,0,.1)}
+    .nav-links.open{right:0}
+    .hamburger{display:flex;z-index:1001}
+    .stats-grid{grid-template-columns:repeat(2,1fr);gap:2.5rem}
+    .about-grid,.adm-grid,.contact-grid{grid-template-columns:1fr;gap:2rem}
+    .cards-grid,.testi-grid{grid-template-columns:1fr}
+    .team-grid{grid-template-columns:repeat(2,1fr)}
+    .footer-grid{grid-template-columns:1fr;gap:2rem;text-align:center}
+    .socials{justify-content:center}
+    section{padding:4rem 1.5rem}
+  }
+  @media(max-width:500px){
+    .team-grid{grid-template-columns:1fr}
+    .stat-num{font-size:2.2rem}
+  }
+  .formation-category{
+  margin-top:60px;
+}
+
+.formation-category h3{
+  color:var(--blue);
+  margin-bottom:10px;
+}
+
+.formation-category > p{
+  margin-bottom:30px;
+  color:#666;
+}
+
+.formation-continue-card{
+  max-width:850px;
+  margin:0 auto;
+  text-align:center;
+}
+</style>
+</head>
+<body>
+<nav class="navbar" id="navbar">
+  <div class="nav-container">
+    <a href="#accueil" class="logo">ES<span>IA</span></a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#accueil" class="active">Accueil</a></li>
+      <li><a href="#apropos">À propos</a></li>
+      <li><a href="#formations">Formations</a></li>
+      <li><a href="#admissions">Admissions</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+<!-- HERO -->
+<header class="hero" id="accueil">
+  <div class="blob blob1"></div>
+  <div class="blob blob2"></div>
+  <div class="blob blob3"></div>
+  <div class="shape shape1"></div>
+  <div class="shape shape2"></div>
+  <div class="hero-content">
+    <h1 class="hero-title">ESIA</h1>
+    <p class="hero-sub">École du Sud d'Informatique et d'Administration</p>
+    <p class="hero-slogan"><span class="typed" id="typed"></span></p>
+    <a href="#formations" class="cta-btn">Découvrir nos formations</a>
+  </div>
+</header>
+<!-- STATS -->
+<section class="stats" style="padding:4rem 2rem">
+  <div class="stats-grid">
+    <div class="stat-item"><div class="stat-icon">🎓</div><div class="stat-num" data-count="500">0</div><div class="stat-label">Étudiants formés</div></div>
+    <div class="stat-item"><div class="stat-icon">📚</div><div class="stat-num" data-count="20">0</div><div class="stat-label">Formations disponibles</div></div>
+    <div class="stat-item"><div class="stat-icon">⏳</div><div class="stat-num" data-count="15">0</div><div class="stat-label">Ans d'expérience</div></div>
+    <div class="stat-item"><div class="stat-icon">🏆</div><div class="stat-num" data-count="95" data-suffix="%">0</div><div class="stat-label">Taux de réussite</div></div>
+  </div>
+</section>
+<!-- À PROPOS -->
+<section id="apropos">
+  <div class="container">
+    <h2 class="section-title reveal">À propos de l'ESIA</h2>
+    <p class="section-sub reveal">Un établissement dédié à former les talents du Sud tunisien.</p>
+    <div class="about-grid">
+      <div class="about-text reveal-left">
+        <h3>Notre histoire</h3>
+        <p>Fondée dans le sud de la Tunisie, l'ESIA est un établissement de formation professionnelle dédié à l'informatique et à l'administration des entreprises.</p>
+        <h3>Notre mission</h3>
+        <p>Offrir une formation de qualité, pratique et adaptée au marché du travail.</p>
+        <h3>Nos valeurs</h3>
+        <div class="values">
+          <span>Excellence</span><span>Intégrité</span><span>Innovation</span><span>Accessibilité</span>
+        </div>
+      </div>
+      <div class="quote-card reveal-right">
+        <p>Notre engagement est de former des diplômés compétents, prêts à relever les défis du monde professionnel.</p>
+        <p class="author">— La Direction de l'ESIA</p>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- FORMATIONS -->
+<section id="formations">
+  <div class="container">
+
+    <h2 class="section-title reveal">Nos Formations</h2>
+    <p class="section-sub reveal">
+      Des parcours adaptés aux étudiants, professionnels et groupes.
+    </p>
+
+    <div class="formation-category reveal">
+      <h3>🎓 Formations Initiales</h3>
+      <p>
+        Des formations diplômantes permettant l'acquisition de compétences
+        professionnelles reconnues.
+      </p>
+
+      <div class="cards-grid">
+
+        <div class="card reveal">
+          <div class="card-icon">💻</div>
+          <h3>Technicien en Informatique de Gestion</h3>
+          <span class="duration">2 ans</span>
+          <p>BTP — Informatique de gestion, bureautique, bases de données et applications professionnelles.</p>
+        </div>
+
+        <div class="card reveal">
+          <div class="card-icon">🧸</div>
+          <h3>Animateur de Jardin d'Enfants</h3>
+          <span class="duration">2 ans</span>
+          <p>BTP — Animation, encadrement et accompagnement des enfants en milieu éducatif.</p>
+        </div>
+
+        <div class="card reveal">
+          <div class="card-icon">👶</div>
+          <h3>Éducateur de Jeunes Enfants</h3>
+          <span class="duration">2 ans</span>
+          <p>BTS — Éducation, développement et accompagnement des jeunes enfants.</p>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="formation-category reveal">
+      <h3>📚 Formation Continue</h3>
+
+      <div class="card formation-continue-card">
+        <div class="card-icon">🚀</div>
+
+        <h3>Formations sur Mesure</h3>
+
+        <p>
+          ESIA organise également des formations continues adaptées aux besoins
+          des entreprises, associations, administrations et groupes de particuliers.
+        </p>
+
+        <p>
+          Les formations sont assurées par des formateurs qualifiés et des professionnels
+          agréés par l'ATFP (Agence Tunisienne de la Formation Professionnelle),
+          garantissant un enseignement de qualité conforme aux exigences du marché.
+        </p>
+
+        <p>
+          Toute formation peut être mise en place sur demande lorsqu'un groupe
+          est constitué, avec un programme personnalisé et un planning flexible.
+        </p>
+
+        <span class="more" style="opacity:1">
+          Contactez-nous pour étudier votre projet →
+        </span>
+      </div>
+    </div>
+
+  </div>
+</section>
+<!-- ADMISSIONS -->
+<section id="admissions">
+  <div class="container">
+    <h2 class="section-title reveal">Admissions</h2>
+    <p class="section-sub reveal">Rejoignez l'ESIA : un processus simple et accessible à tous.</p>
+    <div class="adm-grid">
+      <div class="adm-block reveal-left">
+        <h3>Conditions d'accès</h3>
+        <p>Baccalauréat ou équivalent. <strong>Tout bachelier est accepté.</strong></p>
+        <h3 style="margin-top:1.5rem">Documents requis</h3>
+        <ul class="checklist">
+          <li>Copie du baccalauréat</li>
+          <li>Copie de la carte d'identité</li>
+          <li>Photo d'identité récente</li>
+          <li>Dossier de candidature rempli</li>
+        </ul>
+      </div>
+      <div class="adm-block reveal-right">
+        <h3>Calendrier</h3>
+        <div class="calendar">
+          <div><span>Ouverture des inscriptions</span><span>Juillet</span></div>
+          <div><span>Clôture</span><span>Septembre</span></div>
+          <div><span>Rentrée</span><span>Octobre</span></div>
+        </div>
+        <h3 style="margin-top:1.5rem">Questions fréquentes</h3>
+        <div class="faq">
+          <div class="faq-item"><div class="faq-q">Quels sont les frais de scolarité ?<span>+</span></div><div class="faq-a">Nos frais sont compétitifs. Contactez l'administration pour la grille tarifaire détaillée.</div></div>
+          <div class="faq-item"><div class="faq-q">Puis-je m'inscrire en cours d'année ?<span>+</span></div><div class="faq-a">Les inscriptions principales ont lieu entre juillet et septembre. Des inscriptions tardives sont possibles selon les places disponibles.</div></div>
+          <div class="faq-item"><div class="faq-q">Les formations sont-elles reconnues ?<span>+</span></div><div class="faq-a">Oui, nos formations sont reconnues et délivrent des diplômes valorisés sur le marché du travail.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <h2 class="section-title reveal">Contact & Localisation</h2>
+    <p class="section-sub reveal">Une question ? Nous sommes à votre écoute.</p>
+    <div class="contact-grid">
+      <div class="reveal-left">
+  <div class="contact-info">
+    <p><strong>📍 Adresse</strong> Gafsa, Tunisie</p>
+    <p><strong>📞 Tél</strong> +216 XX XXX XXX</p>
+    <p><strong>📧 Email</strong> contact@esia.tn</p>
+    <p><strong>🕘 Horaires</strong> Lun – Ven, 8h – 17h</p>
+  </div>
+
+  <div style="margin-top:2rem;">
+    <h3 style="color:var(--blue);margin-bottom:1rem;">
+      Pourquoi nous contacter ?
+    </h3>
+
+    <p>
+      Notre équipe est à votre disposition pour vous renseigner sur les
+      formations initiales, les formations continues, les conditions
+      d'admission et les modalités d'inscription.
+    </p>
+  </div>
+</div>
+      <div class="map-box reveal-right">
+        <iframe
+  src="https://www.google.com/maps?q=33.343110,10.493276&z=16&output=embed"
+  title="Localisation ESIA">
+</iframe>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-col">
+      <div class="logo" style="color:#fff">ES<span style="color:var(--gold)">IA</span></div>
+      <p style="margin-top:1rem">École du Sud d'Informatique et d'Administration. Former les professionnels de demain, dès aujourd'hui.</p>
+      <div class="socials">
+        <a href="#" aria-label="Facebook">f</a>
+        <a href="#" aria-label="Instagram">ig</a>
+        <a href="#" aria-label="LinkedIn">in</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Liens rapides</h4>
+      <ul>
+        <li><a href="#apropos">À propos</a></li>
+        <li><a href="#formations">Formations</a></li>
+        <li><a href="#admissions">Admissions</a></li>
+        <li><a href="#equipe">Équipe</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact rapide</h4>
+      <p>📞 +216 XX XXX XXX</p>
+      <p>📧 contact@esia.tn</p>
+      <p>📍 Sud de la Tunisie</p>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2025 ESIA — Tous droits réservés</div>
+</footer>
+<a href="https://wa.me/21600000000" class="whatsapp" aria-label="WhatsApp">💬</a>
+<script>
+  // Navbar shrink
+  const navbar=document.getElementById('navbar');
+  window.addEventListener('scroll',()=>{
+    navbar.classList.toggle('scrolled',window.scrollY>50);
+  });
+  // Mobile menu
+  const hb=document.getElementById('hamburger'), nl=document.getElementById('navLinks');
+  hb.addEventListener('click',()=>{hb.classList.toggle('active');nl.classList.toggle('open')});
+  nl.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{hb.classList.remove('active');nl.classList.remove('open')}));
+  // Active link on scroll
+  const sections=document.querySelectorAll('section, header.hero');
+  const links=document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll',()=>{
+    let cur='';
+    sections.forEach(s=>{if(window.scrollY>=s.offsetTop-120)cur=s.id});
+    links.forEach(l=>{l.classList.toggle('active',l.getAttribute('href')==='#'+cur)});
+  });
+  // Typing effect
+  const text="Former les professionnels de demain, dès aujourd'hui.";
+  const target=document.getElementById('typed');
+  let i=0;
+  setTimeout(function type(){
+    if(i<text.length){target.textContent+=text.charAt(i);i++;setTimeout(type,45)}
+    else target.style.borderRight='none';
+  },1500);
+  // Reveal on scroll
+  const io=new IntersectionObserver((entries)=>{
+    entries.forEach((e,idx)=>{
+      if(e.isIntersecting){
+        setTimeout(()=>e.target.classList.add('visible'),idx*80);
+        io.unobserve(e.target);
+      }
+    });
+  },{threshold:.15});
+  document.querySelectorAll('.reveal,.reveal-left,.reveal-right').forEach(el=>io.observe(el));
+  // Counters
+  const counters=document.querySelectorAll('.stat-num');
+  const cio=new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        const el=e.target;
+        const target=+el.dataset.count;
+        const suffix=el.dataset.suffix||(target>=100?'+':'+');
+        const real=el.dataset.suffix?'':'+';
+        let n=0;const step=Math.max(1,Math.ceil(target/60));
+        const t=setInterval(()=>{
+          n+=step;
+          if(n>=target){n=target;clearInterval(t);el.textContent=target+(el.dataset.suffix||'+')}
+          else el.textContent=n+(el.dataset.suffix||'+');
+        },25);
+        cio.unobserve(el);
+      }
+    });
+  },{threshold:.5});
+  counters.forEach(c=>cio.observe(c));
+  // FAQ
+  document.querySelectorAll('.faq-item').forEach(item=>{
+    item.addEventListener('click',()=>item.classList.toggle('open'));
+  });
+</script>
+</body>
+</html>
